@@ -6,8 +6,8 @@ import type { User } from "~/models/user.schema";
 
 type HandleUserModalProps = {
   user?: User;
+  title: string;
   visible: boolean;
-  isOnEditMode: boolean;
   onSubmitUser: (userData: CreateUser) => Promise<void>;
   onClose: () => void;
 };
@@ -15,21 +15,12 @@ type HandleUserModalProps = {
 const HandleUserModal: FC<HandleUserModalProps> = ({
   user,
   visible,
-  isOnEditMode,
+  title,
   onSubmitUser,
   onClose,
 }) => (
-  <Modal
-    title={isOnEditMode ? "Edit User" : "Create User"}
-    visible={visible}
-    onClickOutside={onClose}
-  >
-    <UserForm
-      user={user}
-      isOnEditMode={isOnEditMode}
-      onSubmitUser={onSubmitUser}
-      onClose={onClose}
-    />
+  <Modal title={title} visible={visible} onClickOutside={onClose}>
+    <UserForm user={user} onSubmitUser={onSubmitUser} onClose={onClose} />
   </Modal>
 );
 

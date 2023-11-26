@@ -15,32 +15,32 @@ type UserCardProps = {
   onEditUserClick: (user: User) => void;
 };
 
-const UserCard: FC<UserCardProps> = ({ user, onEditUserClick }) => {
-  return (
-    <Card className="hover:shadow-lg ">
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <CardTitle>{user.name}</CardTitle>
-          <div className="flex gap-x-2">
-            <PenSquare
-              size={16}
-              className="cursor-pointer"
-              onClick={() => onEditUserClick(user)}
-            />
-            <Trash size={16} className="cursor-pointer" color="red" />
-          </div>
+const UserCard: FC<UserCardProps> = ({ user, onEditUserClick }) => (
+  <Card className="hover:shadow-lg ">
+    <CardHeader className="pb-2">
+      <div className="flex items-center justify-between">
+        <CardTitle>{user.name}</CardTitle>
+        <div className="flex gap-x-2">
+          <PenSquare
+            size={16}
+            className="cursor-pointer"
+            onClick={() => onEditUserClick(user)}
+          />
+          <Trash size={16} className="cursor-pointer" color="red" />
         </div>
-        <CardDescription>
-          <p>ID: {user.id}</p>
-          <p>Created on: {format(user.createdAt, "LLLL do, yyyy")}</p>
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>{user.email}</p>
-        <p>{user.phoneNumber}</p>
-      </CardContent>
-    </Card>
-  );
-};
+      </div>
+      <CardDescription>
+        {`ID: ${user.id} | Created on: ${format(
+          user.createdAt,
+          "LLLL do, yyyy",
+        )}`}
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>{user.email}</p>
+      <p>{user.phoneNumber}</p>
+    </CardContent>
+  </Card>
+);
 
 export default UserCard;

@@ -1,69 +1,101 @@
 import type { FC } from "react";
-import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import type { CreateUser } from "~/models/create-user.schema";
 import type { User } from "~/models/user.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  type UserFormValidation,
+  ZUserFormValidation,
+} from "~/models/user-form-validation.schema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 
 type UserFormProps = {
   user?: User;
-  isOnEditMode: boolean;
   onSubmitUser: (userData: CreateUser) => Promise<void>;
   onClose: () => void;
 };
 
-const UserForm: FC<UserFormProps> = ({
-  user,
-  isOnEditMode,
-  onSubmitUser,
-  onClose,
-}) => {
-  const { register, handleSubmit } = useForm<CreateUser>();
+const UserForm: FC<UserFormProps> = ({ user, onSubmitUser, onClose }) => {
+  const form = useForm<CreateUser>({
+    resolver: zodResolver(ZUserFormValidation),
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+      phoneNumber: user?.phoneNumber,
+    },
+  });
 
-  const onSubmit: SubmitHandler<CreateUser> = (data) => onSubmitUser(data);
+  const onSubmit: SubmitHandler<UserFormValidation> = (data) =>
+    onSubmitUser(data);
 
   return (
-    <form className="flex flex-col gap-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          placeholder="John Doe"
-          type="text"
-          defaultValue={isOnEditMode ? user?.name : ""}
-          {...register("name")}
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-y-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          placeholder="johndoe@santehq.com"
-          type="email"
-          defaultValue={isOnEditMode ? user?.email : ""}
-          {...register("email")}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="johndoe@example.com"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Label htmlFor="phoneNumber">Phone number</Label>
-        <Input
-          id="phoneNumber"
-          placeholder="1111111"
-          type="tel"
-          defaultValue={isOnEditMode ? user?.phoneNumber : ""}
-          {...register("phoneNumber")}
+        <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input type="tel" placeholder="+589999999" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="flex justify-end gap-2">
-        <Button size="sm" type="submit">
-          Accept
-        </Button>
-        <Button size="sm" variant="ghost" onClick={onClose}>
-          Close
-        </Button>
-      </div>
-    </form>
+        <div className="flex justify-end gap-2">
+          <Button size="sm" type="submit">
+            Accept
+          </Button>
+          <Button size="sm" variant="ghost" onClick={onClose}>
+            Close
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };
 

@@ -37,8 +37,8 @@ const UsersContainer: FC = () => {
     <>
       <HandleUserModal
         user={selectedUser}
+        title={isEditingUser ? "Edit User" : "Create User"}
         visible={isModalVisible}
-        isOnEditMode={isEditingUser}
         onClose={() => {
           setIsModalVisible(false);
           setIsEditingUser(false);
