@@ -4,13 +4,21 @@ import { Input } from "./ui/input";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import type { CreateUser } from "~/models/create-user.schema";
+import type { User } from "~/models/user.schema";
 
 type UserFormProps = {
+  user?: User;
+  isOnEditMode: boolean;
   onSubmitUser: (userData: CreateUser) => Promise<void>;
   onClose: () => void;
 };
 
-const UserForm: FC<UserFormProps> = ({ onSubmitUser, onClose }) => {
+const UserForm: FC<UserFormProps> = ({
+  user,
+  isOnEditMode,
+  onSubmitUser,
+  onClose,
+}) => {
   const { register, handleSubmit } = useForm<CreateUser>();
 
   const onSubmit: SubmitHandler<CreateUser> = (data) => onSubmitUser(data);
@@ -23,6 +31,7 @@ const UserForm: FC<UserFormProps> = ({ onSubmitUser, onClose }) => {
           id="name"
           placeholder="John Doe"
           type="text"
+          defaultValue={isOnEditMode ? user?.name : ""}
           {...register("name")}
         />
       </div>
@@ -32,6 +41,7 @@ const UserForm: FC<UserFormProps> = ({ onSubmitUser, onClose }) => {
           id="email"
           placeholder="johndoe@santehq.com"
           type="email"
+          defaultValue={isOnEditMode ? user?.email : ""}
           {...register("email")}
         />
       </div>
@@ -41,6 +51,7 @@ const UserForm: FC<UserFormProps> = ({ onSubmitUser, onClose }) => {
           id="phoneNumber"
           placeholder="1111111"
           type="tel"
+          defaultValue={isOnEditMode ? user?.phoneNumber : ""}
           {...register("phoneNumber")}
         />
       </div>
