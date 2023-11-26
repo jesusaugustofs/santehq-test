@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ZCreateUser } from "~/models/create-user.schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
@@ -21,5 +22,14 @@ export const userRouter = createTRPCRouter({
           ],
         },
       });
+    }),
+  create: publicProcedure
+    .input(ZCreateUser)
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.create({
+        data: input,
+      });
+
+      return user;
     }),
 });

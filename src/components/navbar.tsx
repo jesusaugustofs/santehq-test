@@ -17,7 +17,7 @@ const Navbar: FC<NavbarProps> = ({
   onButtonClick,
   onInputChange,
 }) => (
-  <div className="flex flex-row place-content-between items-center gap-x-12 p-2 shadow-lg">
+  <nav className="flex flex-row place-content-between items-center gap-x-12 p-2 shadow-lg">
     <h1 className="text-2xl font-bold">{title}</h1>
     <Input
       className="w-2/4"
@@ -26,7 +26,7 @@ const Navbar: FC<NavbarProps> = ({
       onChange={(event) => onInputChange(event.target.value)}
     />
     <Button onClick={onButtonClick}>{buttonText}</Button>
-  </div>
+  </nav>
 );
 
 export default Navbar;
