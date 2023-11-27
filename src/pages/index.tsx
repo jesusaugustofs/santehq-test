@@ -5,10 +5,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Sante Users</title>
+        <title>Santé Users</title>
         <meta
           name="description"
-          content="Sante, just the best liquor selling app ;)"
+          content="Santé, just the best liquor selling app ;)"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -17,15 +17,17 @@ const Navbar: FC<NavbarProps> = ({
   onButtonClick,
   onInputChange,
 }) => (
-  <nav className="flex flex-row place-content-between items-center gap-x-12 p-2 shadow-lg">
-    <h1 className="text-2xl font-bold">{title}</h1>
+  <nav className="flex flex-row flex-wrap place-content-between items-center gap-4 gap-x-12 p-2 shadow-lg sm:flex-nowrap">
+    <h1 className="order-1 text-2xl font-bold">{title}</h1>
     <Input
-      className="w-1/2"
+      className="order-3 sm:order-2 sm:w-1/2"
       type="search"
       placeholder={inputPlaceholder}
       onChange={(event) => onInputChange(event.target.value)}
     />
-    <Button onClick={onButtonClick}>{buttonText}</Button>
+    <Button className="order-2 sm:order-3" size="sm" onClick={onButtonClick}>
+      {buttonText}
+    </Button>
   </nav>
 );
 

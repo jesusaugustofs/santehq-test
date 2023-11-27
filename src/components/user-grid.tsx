@@ -1,6 +1,8 @@
 import type { FC } from "react";
 import UserCard from "./user-card";
 import type { User } from "~/models/user.schema";
+import Empty from "./empty";
+import Error from "./error";
 
 type UserGridProps = {
   users?: User[];
@@ -22,11 +24,23 @@ const UserGrid: FC<UserGridProps> = ({
   }
 
   if (isError) {
-    return <h2>An error has ocurred</h2>;
+    return (
+      <div className="flex flex-1 justify-center">
+        <Error message="An error has ocurred." />
+      </div>
+    );
+  }
+
+  if (!users?.length) {
+    return (
+      <div className="flex flex-1 justify-center">
+        <Empty message="There are no users registered." />
+      </div>
+    );
   }
 
   return (
-    <div className="grid grid-cols-user-container gap-2 p-2">
+    <div className="grid grid-cols-user-container gap-2 scroll-auto p-2">
       {users?.map((user) => (
         <UserCard
           key={user.id}

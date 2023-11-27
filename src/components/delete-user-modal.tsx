@@ -7,7 +7,7 @@ type ModalProps = ComponentProps<typeof Modal>;
 type DeleteUserModalProps = Omit<ModalProps, "onClickOutside" | "children"> & {
   user?: User;
   message: ReactNode;
-  onAcceptUserDelete: (id: User["id"]) => void;
+  onAcceptUserDelete: (id: User["id"]) => Promise<void>;
 };
 
 const DeleteUserModal: FC<DeleteUserModalProps> = ({

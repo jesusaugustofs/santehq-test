@@ -17,10 +17,9 @@ const UsersContainer: FC = () => {
   const [isDeletingUser, setIsDeletingUser] = useState<boolean>(false);
   const debouncedSearch = useDebounce(searchValue);
 
-  const { mutate: createUser } = api.user.create.useMutation();
-  const { mutate: updateUser } = api.user.update.useMutation();
-  const { mutate: deleteUser } = api.user.delete.useMutation();
-
+  const { mutateAsync: createUser } = api.user.create.useMutation();
+  const { mutateAsync: updateUser } = api.user.update.useMutation();
+  const { mutateAsync: deleteUser } = api.user.delete.useMutation();
   const {
     data: usersData,
     isLoading,
@@ -35,12 +34,12 @@ const UsersContainer: FC = () => {
   const onSubmitUser = async (userData: CreateUser) => {
     try {
       if (isEditingUser && selectedUser) {
-        updateUser({ id: selectedUser.id, ...userData });
+        await updateUser({ id: selectedUser.id, ...userData });
         toast({
           description: "User successfully updated!",
         });
       } else {
-        createUser(userData);
+        await createUser(userData);
         toast({
           description: "User successfully created!",
         });
@@ -59,19 +58,18 @@ const UsersContainer: FC = () => {
 
   const onDeleteUser = async (userId: number) => {
     try {
-      deleteUser({ id: userId });
+      await deleteUser({ id: userId });
       toast({
         description: "User successfully deleted!",
         variant: "destructive",
       });
+      await refetch();
     } catch (e) {
       toast({
         description: "Could not delete user!",
         variant: "destructive",
       });
     }
-
-    await refetch();
   };
 
   return (
@@ -98,7 +96,7 @@ const UsersContainer: FC = () => {
         }}
         onAcceptUserDelete={(userId) => onDeleteUser(userId)}
       />
-      <div className="flex flex-col gap-8">
+      <div className="flex h-screen flex-col gap-8">
         <Navbar
           title="Santé Users"
           inputPlaceholder="Search by email or name"
