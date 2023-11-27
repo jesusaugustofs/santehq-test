@@ -6,7 +6,11 @@ export const ZUserFormValidation = z.object({
     .string({
       required_error: "Name is required",
     })
-    .min(3, { message: "Name must be at least 3 characters" }),
+    .min(3, { message: "Name must be at least 3 characters" })
+    .refine(
+      (value) => /^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/.test(value),
+      "Name should contain only alphabets",
+    ),
   email: z
     .string({
       required_error: "Email is required",

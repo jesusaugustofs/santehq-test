@@ -19,7 +19,12 @@ const HandleUserModal: FC<HandleUserModalProps> = ({
   onSubmitUser,
   onClose,
 }) => (
-  <Modal title={title} visible={visible} onClickOutside={onClose}>
+  <Modal
+    className="h-200"
+    title={title}
+    visible={visible}
+    onClickOutside={onClose}
+  >
     <UserForm user={user} onSubmitUser={onSubmitUser} onClose={onClose} />
   </Modal>
 );

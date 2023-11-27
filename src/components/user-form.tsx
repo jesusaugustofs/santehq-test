@@ -40,7 +40,7 @@ const UserForm: FC<UserFormProps> = ({ user, onSubmitUser, onClose }) => {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-y-6"
+        className="flex flex-col gap-y-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField

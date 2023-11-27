@@ -9,6 +9,7 @@ It is a simple yet dynamic contact list application. It allows users to perform 
 ## Running The Project Locally
 
 - Download the project and then run `npm install`
+- Create a new `.env` file in root and paste values from `.env.example`
 - Then run `npm run db:push` to build the User model
 - Optionally you can run `npm run db:seed` and it will create 5 users
 - Finally just run `npm run dev` and go to http://localhost:3000/ in your browser
