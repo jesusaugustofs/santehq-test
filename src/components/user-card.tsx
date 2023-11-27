@@ -13,9 +13,14 @@ import { format } from "date-fns";
 type UserCardProps = {
   user: User;
   onEditUserClick: (user: User) => void;
+  onDeleteUserClick: (user: User) => void;
 };
 
-const UserCard: FC<UserCardProps> = ({ user, onEditUserClick }) => (
+const UserCard: FC<UserCardProps> = ({
+  user,
+  onEditUserClick,
+  onDeleteUserClick,
+}) => (
   <Card className="hover:shadow-lg ">
     <CardHeader className="pb-2">
       <div className="flex items-center justify-between">
@@ -26,7 +31,12 @@ const UserCard: FC<UserCardProps> = ({ user, onEditUserClick }) => (
             className="cursor-pointer"
             onClick={() => onEditUserClick(user)}
           />
-          <Trash size={16} className="cursor-pointer" color="red" />
+          <Trash
+            size={16}
+            className="cursor-pointer"
+            color="red"
+            onClick={() => onDeleteUserClick(user)}
+          />
         </div>
       </div>
       <CardDescription>

@@ -20,7 +20,7 @@ const Navbar: FC<NavbarProps> = ({
   <nav className="flex flex-row place-content-between items-center gap-x-12 p-2 shadow-lg">
     <h1 className="text-2xl font-bold">{title}</h1>
     <Input
-      className="w-2/4"
+      className="w-1/2"
       type="search"
       placeholder={inputPlaceholder}
       onChange={(event) => onInputChange(event.target.value)}

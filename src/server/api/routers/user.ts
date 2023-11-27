@@ -28,6 +28,19 @@ export const userRouter = createTRPCRouter({
   create: publicProcedure
     .input(ZCreateUser)
     .mutation(async ({ ctx, input }) => {
+      const existing = await ctx.db.user.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+
+      if (existing) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Email is already registered",
+        });
+      }
+
       const user = await ctx.db.user.create({
         data: input,
       });
@@ -37,7 +50,7 @@ export const userRouter = createTRPCRouter({
   update: publicProcedure
     .input(ZUpdateUser)
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.db.user.findFirst({
+      const user = await ctx.db.user.findUnique({
         where: {
           id: input.id,
         },
@@ -60,6 +73,32 @@ export const userRouter = createTRPCRouter({
           name,
           email,
           phoneNumber,
+        },
+      });
+    }),
+  delete: publicProcedure
+    .input({
+      ...ZUpdateUser.pick({
+        id: true,
+      }),
+    })
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
+      return ctx.db.user.delete({
+        where: {
+          id: input.id,
         },
       });
     }),

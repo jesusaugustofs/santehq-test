@@ -7,6 +7,7 @@ type UserGridProps = {
   isLoading: boolean;
   isError: boolean;
   onEditUserClick: (user: User) => void;
+  onDeleteUserClick: (user: User) => void;
 };
 
 const UserGrid: FC<UserGridProps> = ({
@@ -14,6 +15,7 @@ const UserGrid: FC<UserGridProps> = ({
   isLoading,
   isError,
   onEditUserClick,
+  onDeleteUserClick,
 }) => {
   if (isLoading) {
     return <h2>Loading...</h2>;
@@ -24,12 +26,13 @@ const UserGrid: FC<UserGridProps> = ({
   }
 
   return (
-    <div className="grid-cols-user-container grid gap-2 p-2">
+    <div className="grid grid-cols-user-container gap-2 p-2">
       {users?.map((user) => (
         <UserCard
           key={user.id}
           user={user}
           onEditUserClick={(user) => onEditUserClick(user)}
+          onDeleteUserClick={(user) => onDeleteUserClick(user)}
         />
       ))}
     </div>
