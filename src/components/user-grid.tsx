@@ -3,6 +3,7 @@ import UserCard from "./user-card";
 import type { User } from "~/models/user.schema";
 import Empty from "./empty";
 import Error from "./error";
+import Spinner from "./spinner";
 
 type UserGridProps = {
   users?: User[];
@@ -20,7 +21,12 @@ const UserGrid: FC<UserGridProps> = ({
   onDeleteUserClick,
 }) => {
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-2">
+        <Spinner />
+        <h2>Loading users...</h2>
+      </div>
+    );
   }
 
   if (isError) {

@@ -4,10 +4,10 @@ import type { User } from "~/models/user.schema";
 import HandleUserModal from "~/components/handle-user-modal";
 import Navbar from "~/components/navbar";
 import UserGrid from "~/components/user-grid";
+import DeleteUserModal from "~/components/delete-user-modal";
 import { useDebounce } from "~/hooks/useDebounce";
 import { api } from "~/utils/api";
 import { useToast } from "~/components/ui/use-toast";
-import DeleteUserModal from "~/components/delete-user-modal";
 
 const UsersContainer: FC = () => {
   const [selectedUser, setSelectedUser] = useState<User>();
@@ -46,14 +46,13 @@ const UsersContainer: FC = () => {
       }
 
       await refetch();
+      setIsModalVisible(false);
     } catch (error) {
       toast({
         description: "Could not create user, email is already in use",
         variant: "destructive",
       });
     }
-
-    setIsModalVisible(false);
   };
 
   const onDeleteUser = async (userId: number) => {
@@ -88,7 +87,7 @@ const UsersContainer: FC = () => {
       <DeleteUserModal
         user={selectedUser}
         title="Delete User"
-        message="Are you sure to delete this user? It will be removed for ever!"
+        message={`Are you sure to delete ${selectedUser?.name}? It will be removed for ever!`}
         visible={isDeletingUser}
         onClose={() => {
           setIsDeletingUser(false);
